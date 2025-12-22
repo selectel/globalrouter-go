@@ -309,7 +309,7 @@ func TestServiceClient_Network(t *testing.T) {
 	})
 }
 
-func TestServiceClient_CloudNetworkCreate(t *testing.T) {
+func TestServiceClient_VPCNetworkCreate(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		// Prepare
 		body := `{
@@ -334,7 +334,7 @@ func TestServiceClient_CloudNetworkCreate(t *testing.T) {
 		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
 		client := newFakeClient("http://fake", fakeTransport)
 
-		createReq := &CloudNetworkCreateRequest{
+		createReq := &VPCNetworkCreateRequest{
 			Name:        "cloud_net",
 			RouterID:    "22222222-2222-2222-2222-222222222222",
 			ZoneID:      "33333333-3333-3333-3333-333333333333",
@@ -344,7 +344,7 @@ func TestServiceClient_CloudNetworkCreate(t *testing.T) {
 		}
 
 		// Execute
-		plan, respRes, err := client.CloudNetworkCreate(context.Background(), createReq)
+		plan, respRes, err := client.VPCNetworkCreate(context.Background(), createReq)
 
 		// Analyse
 		require.NoError(t, err)
@@ -379,7 +379,7 @@ func TestServiceClient_CloudNetworkCreate(t *testing.T) {
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
-		plan, respRes, err := client.CloudNetworkCreate(context.Background(), &CloudNetworkCreateRequest{})
+		plan, respRes, err := client.VPCNetworkCreate(context.Background(), &VPCNetworkCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)
@@ -395,7 +395,7 @@ func TestServiceClient_CloudNetworkCreate(t *testing.T) {
 		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
 
 		// Execute
-		plan, respRes, err := client.CloudNetworkCreate(context.Background(), &CloudNetworkCreateRequest{})
+		plan, respRes, err := client.VPCNetworkCreate(context.Background(), &VPCNetworkCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)
@@ -411,7 +411,7 @@ func TestServiceClient_CloudNetworkCreate(t *testing.T) {
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
-		plan, respRes, err := client.CloudNetworkCreate(context.Background(), &CloudNetworkCreateRequest{})
+		plan, respRes, err := client.VPCNetworkCreate(context.Background(), &VPCNetworkCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)

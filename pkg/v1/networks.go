@@ -30,7 +30,7 @@ type (
 		VdcName        string   `json:"vdc_name,omitempty"`
 	}
 
-	CloudNetworkCreateRequest struct {
+	VPCNetworkCreateRequest struct {
 		RouterID    string   `json:"router_id"`
 		ZoneID      string   `json:"zone_id"`
 		ProjectID   string   `json:"project_id"`
@@ -126,7 +126,7 @@ func (client *ServiceClient) Network(ctx context.Context, networkID string) (*Ne
 	return result, responseResult, nil
 }
 
-func (client *ServiceClient) CloudNetworkCreate(ctx context.Context, req *CloudNetworkCreateRequest) (*Network, *ResponseResult, error) {
+func (client *ServiceClient) VPCNetworkCreate(ctx context.Context, req *VPCNetworkCreateRequest) (*Network, *ResponseResult, error) {
 	u := fmt.Sprintf("%s/networks", client.APIUrl)
 
 	body, err := json.Marshal(req)

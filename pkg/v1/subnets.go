@@ -29,7 +29,7 @@ type (
 		SvSubnetID       string   `json:"sv_subnet_id,omitempty"`
 	}
 
-	CloudSubnetCreateRequest struct {
+	VPCSubnetCreateRequest struct {
 		NetworkID        string   `json:"network_id"`
 		Gateway          string   `json:"gateway"`
 		Cidr             string   `json:"cidr"`
@@ -127,7 +127,7 @@ func (client *ServiceClient) Subnet(ctx context.Context, subnetID string) (*Subn
 	return result, responseResult, nil
 }
 
-func (client *ServiceClient) CloudSubnetCreate(ctx context.Context, req *CloudSubnetCreateRequest) (*Subnet, *ResponseResult, error) {
+func (client *ServiceClient) VPCSubnetCreate(ctx context.Context, req *VPCSubnetCreateRequest) (*Subnet, *ResponseResult, error) {
 	u := fmt.Sprintf("%s/subnets", client.APIUrl)
 
 	body, err := json.Marshal(req)

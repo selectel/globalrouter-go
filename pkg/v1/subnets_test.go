@@ -313,7 +313,7 @@ func TestServiceClient_Subnet(t *testing.T) {
 	})
 }
 
-func TestServiceClient_CloudSubnetCreate(t *testing.T) {
+func TestServiceClient_VPCSubnetCreate(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		// Prepare
 		body := `{
@@ -340,7 +340,7 @@ func TestServiceClient_CloudSubnetCreate(t *testing.T) {
 		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
 		client := newFakeClient("http://fake", fakeTransport)
 
-		createReq := &CloudSubnetCreateRequest{
+		createReq := &VPCSubnetCreateRequest{
 			NetworkID:        "22222222-2222-2222-2222-222222222222",
 			Gateway:          "10.0.14.1",
 			Cidr:             "10.0.14.0/24",
@@ -350,7 +350,7 @@ func TestServiceClient_CloudSubnetCreate(t *testing.T) {
 		}
 
 		// Execute
-		plan, respRes, err := client.CloudSubnetCreate(context.Background(), createReq)
+		plan, respRes, err := client.VPCSubnetCreate(context.Background(), createReq)
 
 		// Analyse
 		require.NoError(t, err)
@@ -384,7 +384,7 @@ func TestServiceClient_CloudSubnetCreate(t *testing.T) {
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
-		plan, respRes, err := client.CloudSubnetCreate(context.Background(), &CloudSubnetCreateRequest{})
+		plan, respRes, err := client.VPCSubnetCreate(context.Background(), &VPCSubnetCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)
@@ -400,7 +400,7 @@ func TestServiceClient_CloudSubnetCreate(t *testing.T) {
 		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
 
 		// Execute
-		plan, respRes, err := client.CloudSubnetCreate(context.Background(), &CloudSubnetCreateRequest{})
+		plan, respRes, err := client.VPCSubnetCreate(context.Background(), &VPCSubnetCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)
@@ -416,7 +416,7 @@ func TestServiceClient_CloudSubnetCreate(t *testing.T) {
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
-		plan, respRes, err := client.CloudSubnetCreate(context.Background(), &CloudSubnetCreateRequest{})
+		plan, respRes, err := client.VPCSubnetCreate(context.Background(), &VPCSubnetCreateRequest{})
 
 		// Analyse
 		require.Error(t, err)
