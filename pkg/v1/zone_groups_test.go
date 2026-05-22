@@ -19,7 +19,7 @@ func TestServiceClient_ZoneGroups(t *testing.T) {
 			"updated_at": "2160-01-01 00:00:00"
 		}]`
 		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := NewFakeTransport(fakeResp, nil)
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -51,7 +51,7 @@ func TestServiceClient_ZoneGroups(t *testing.T) {
 			"updated_at": "2160-01-01 00:00:00"
 		}]`
 		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := NewFakeTransport(fakeResp, nil)
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -77,7 +77,7 @@ func TestServiceClient_ZoneGroups(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
 		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := NewFakeTransport(fakeResp, nil)
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -94,7 +94,7 @@ func TestServiceClient_ZoneGroups(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
 		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", NewFakeTransport(fakeResp, nil))
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		res, respRes, err := client.ListZoneGroups(context.Background(), nil)
@@ -109,7 +109,7 @@ func TestServiceClient_ZoneGroups(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
