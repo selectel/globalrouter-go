@@ -31,21 +31,21 @@ type (
 
 	VPCSubnetCreateRequest struct {
 		NetworkID        string   `json:"network_id"`
-		Gateway          string   `json:"gateway"`
+		Gateway          string   `json:"gateway,omitempty"`
 		Cidr             string   `json:"cidr"`
 		OsSubnetID       string   `json:"os_subnet_id"`
 		Name             string   `json:"name,omitempty"`
 		ProjectID        string   `json:"project_id,omitempty"`
-		ServiceAddresses []string `json:"service_addresses"`
+		ServiceAddresses []string `json:"service_addresses,omitempty"`
 		Tags             []string `json:"tags,omitempty"`
 	}
 
 	DedicatedSubnetCreateRequest struct {
 		NetworkID        string   `json:"network_id"`
-		Gateway          string   `json:"gateway"`
+		Gateway          string   `json:"gateway,omitempty"`
 		Cidr             string   `json:"cidr"`
 		Name             string   `json:"name,omitempty"`
-		ServiceAddresses []string `json:"service_addresses"`
+		ServiceAddresses []string `json:"service_addresses,omitempty"`
 		Tags             []string `json:"tags,omitempty"`
 	}
 

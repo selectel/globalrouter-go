@@ -5,7 +5,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/selectel/globalrouter-go/pkg/httptest"
 	"github.com/stretchr/testify/require"
 )
 
@@ -32,8 +31,8 @@ func TestServiceClient_Networks(t *testing.T) {
 				"os_network_id": "55555555-5555-5555-5555-555555555555"
 			}
 		]`
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -106,8 +105,8 @@ func TestServiceClient_Networks(t *testing.T) {
 				"os_network_id": null
 			}
 		]`
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -161,8 +160,8 @@ func TestServiceClient_Networks(t *testing.T) {
 	t.Run("InvalidJSON", func(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -178,8 +177,8 @@ func TestServiceClient_Networks(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		res, respRes, err := client.Networks(context.Background(), nil)
@@ -194,7 +193,7 @@ func TestServiceClient_Networks(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -228,8 +227,8 @@ func TestServiceClient_Network(t *testing.T) {
 			"inner_vlan": null,
 			"os_network_id": null
 		}`
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -263,8 +262,8 @@ func TestServiceClient_Network(t *testing.T) {
 	t.Run("InvalidJSON", func(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -280,8 +279,8 @@ func TestServiceClient_Network(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		plan, respRes, err := client.Network(context.Background(), "plan-id-1")
@@ -296,7 +295,7 @@ func TestServiceClient_Network(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -330,8 +329,8 @@ func TestServiceClient_VPCNetworkCreate(t *testing.T) {
 			"inner_vlan": null,
 			"os_network_id": "55555555-5555-5555-5555-555555555555"
 		}`
-		fakeResp := httptest.NewFakeResponse(201, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(201, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		createReq := &VPCNetworkCreateRequest{
@@ -374,8 +373,8 @@ func TestServiceClient_VPCNetworkCreate(t *testing.T) {
 	t.Run("InvalidJSON", func(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
-		fakeResp := httptest.NewFakeResponse(201, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(201, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -391,8 +390,8 @@ func TestServiceClient_VPCNetworkCreate(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		plan, respRes, err := client.VPCNetworkCreate(context.Background(), &VPCNetworkCreateRequest{})
@@ -407,7 +406,7 @@ func TestServiceClient_VPCNetworkCreate(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -441,8 +440,8 @@ func TestServiceClient_DedicatedNetworkCreate(t *testing.T) {
 			"inner_vlan": 321,
 			"os_network_id": null
 		}`
-		fakeResp := httptest.NewFakeResponse(201, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(201, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		createReq := &DedicatedNetworkCreateRequest{
@@ -485,8 +484,8 @@ func TestServiceClient_DedicatedNetworkCreate(t *testing.T) {
 	t.Run("InvalidJSON", func(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
-		fakeResp := httptest.NewFakeResponse(201, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(201, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -502,8 +501,8 @@ func TestServiceClient_DedicatedNetworkCreate(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		plan, respRes, err := client.DedicatedNetworkCreate(context.Background(), &DedicatedNetworkCreateRequest{})
@@ -518,7 +517,7 @@ func TestServiceClient_DedicatedNetworkCreate(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -552,8 +551,8 @@ func TestServiceClient_NetworkUpdate(t *testing.T) {
 			"inner_vlan": null,
 			"os_network_id": "55555555-5555-5555-5555-555555555555"
 		}`
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		newName := "updated_cloud_net"
@@ -594,8 +593,8 @@ func TestServiceClient_NetworkUpdate(t *testing.T) {
 	t.Run("InvalidJSON", func(t *testing.T) {
 		// Prepare
 		body := invalidJSONBody
-		fakeResp := httptest.NewFakeResponse(200, body) //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(200, body) //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -611,8 +610,8 @@ func TestServiceClient_NetworkUpdate(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		plan, respRes, err := client.NetworkUpdate(context.Background(), "11111111-1111-1111-1111-111111111111", &NetworkUpdateRequest{})
@@ -627,7 +626,7 @@ func TestServiceClient_NetworkUpdate(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -643,8 +642,8 @@ func TestServiceClient_NetworkUpdate(t *testing.T) {
 func TestServiceClient_NetworkDisconnect(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		// Prepare
-		fakeResp := httptest.NewFakeResponse(204, "") //nolint:bodyclose
-		fakeTransport := httptest.NewFakeTransport(fakeResp, nil)
+		fakeResp := NewFakeResponse(204, "") //nolint:bodyclose
+		fakeTransport := &NewFakeTransport{resp: fakeResp, err: nil}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
@@ -659,8 +658,8 @@ func TestServiceClient_NetworkDisconnect(t *testing.T) {
 	t.Run("HTTPError", func(t *testing.T) {
 		// Prepare
 		body := httpErrorBody
-		fakeResp := httptest.NewFakeResponse(404, body) //nolint:bodyclose
-		client := newFakeClient("http://fake", httptest.NewFakeTransport(fakeResp, nil))
+		fakeResp := NewFakeResponse(404, body) //nolint:bodyclose
+		client := newFakeClient("http://fake", &NewFakeTransport{resp: fakeResp, err: nil})
 
 		// Execute
 		respRes, err := client.NetworkDisconnect(context.Background(), "11111111-1111-1111-1111-111111111111")
@@ -674,7 +673,7 @@ func TestServiceClient_NetworkDisconnect(t *testing.T) {
 
 	t.Run("DoRequestError", func(t *testing.T) {
 		// Prepare
-		fakeTransport := httptest.NewFakeTransport(nil, errors.New("network failure"))
+		fakeTransport := &NewFakeTransport{resp: nil, err: errors.New("network failure")}
 		client := newFakeClient("http://fake", fakeTransport)
 
 		// Execute
